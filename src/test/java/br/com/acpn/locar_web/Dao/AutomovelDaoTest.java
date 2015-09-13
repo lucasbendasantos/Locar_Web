@@ -65,6 +65,7 @@ public class AutomovelDaoTest {
 	}
 	
 	@Test
+	@Ignore
 	public void editar(){
 		
 		AutomovelDao automovelDao = new AutomovelDao();

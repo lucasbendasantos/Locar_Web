@@ -27,7 +27,7 @@ public class Locacao extends GenericDomain {
 	@Column(nullable = false, precision = 8, scale = 2)
 	private double kmlivre;
 	
-	@Column(length = 20,nullable = false)
+	@Column(length = 35,nullable = false)
 	private String formaPagamento;
 	
 	@Column(nullable = false)
@@ -37,6 +37,18 @@ public class Locacao extends GenericDomain {
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Cidades cidadeLocacao;
+	
+	//@ManyToOne
+	//@JoinColumn(nullable = false)
+	//private Funcionario funcionario;
+	
+	/*public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
+	}*/
 
 	public Automovel getAutomovel() {
 		return automovel;

@@ -40,6 +40,7 @@
 		<mapping class="br.com.acpn.locar_web.domain.Estado"/>
 		<mapping class="br.com.acpn.locar_web.domain.Funcionario"/>
 		<mapping class="br.com.acpn.locar_web.domain.Locacao"/>
+		<mapping class="br.com.acpn.locar_web.domain.Pagamento"/>
 		<mapping class="br.com.acpn.locar_web.domain.Pessoa"/>
 		<mapping class="br.com.acpn.locar_web.domain.Usuario"/>
 		

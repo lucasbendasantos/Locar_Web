@@ -58,7 +58,7 @@ public class PessoaDaoTest {
 	}
 
 	@Test
-	//@Ignore
+	@Ignore
 	public void excluir() {
 		long codigo = 1L;
 

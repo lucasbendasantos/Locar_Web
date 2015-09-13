@@ -30,7 +30,7 @@ public class Pessoa extends GenericDomain {
 	@Column(length = 30)
 	private String complemento;
 	
-	@Column(length = 13, nullable = false)
+	@Column(length = 13)
 	private String telefone;
 
 	@Column(length = 14, nullable = false)
