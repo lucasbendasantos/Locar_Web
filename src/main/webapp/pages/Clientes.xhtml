@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Clientes</title>
+</h:head>
+<h:body>
+	<h:form>
+		<p:panel header="Clientes - Listagem">
+			<p:dataTable emptyMessage="Nenhum Registro Encontrado."
+				paginator="true">
+				<f:facet name="header">
+					<p:commandButton value="Novo" oncomplete="PF('dialogo').show()" />
+				</f:facet>
+
+				<p:column headerText="Nome">
+				</p:column>
+
+				<p:column headerText="Cpf">
+				</p:column>
+				
+				<p:column headerText="Telefone">
+				</p:column>
+				
+				<p:column headerText="Numero Cnh">
+				</p:column>
+				
+				<p:column headerText="Validade Cnh">
+				</p:column>
+				
+				<p:column headerText="Estado Emissor">
+				</p:column>
+				
+				<p:column headerText="Estatus">
+				</p:column>
+
+				<p:column headerText="Opcoes">
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+	<p:dialog header="Clientes - Cadastro" widgetVar="dialogo"
+		draggable="false" resizable="false" modal="true" closable="false">
+		<h:form>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Pessoa:" />
+				<p:selectOneMenu filter="true">
+					<f:selectItem itemValue="" itemLabel="Selecionar Uma Pessoa"/>
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Validade Cnh:" />
+				<p:calendar/>
+				
+				<p:outputLabel value="Estado Emissor:" />
+				<p:selectOneMenu filter="true">
+					<f:selectItem itemValue="" itemLabel="Selecionar Um Estado"/>
+				</p:selectOneMenu>
+				
+				<p:outputLabel value="Numero Cnh"/>
+				<p:inputText maxlength="20" size="20"/>
+				
+				<p:outputLabel value ="Ativo:"/>
+				<p:selectBooleanCheckbox />
+				
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:commandButton value="Salvar" />
+				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>

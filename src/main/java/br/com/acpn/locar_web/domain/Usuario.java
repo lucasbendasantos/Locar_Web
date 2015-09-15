@@ -20,6 +20,17 @@ public class Usuario extends GenericDomain {
 	@OneToOne
 	@JoinColumn(nullable = false)
 	private Pessoa pessoa;
+	
+	@Column(nullable=false)
+	private String usuario;
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 
 	public String getSenha() {
 		return senha;

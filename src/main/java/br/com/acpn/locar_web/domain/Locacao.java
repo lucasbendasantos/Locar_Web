@@ -38,17 +38,17 @@ public class Locacao extends GenericDomain {
 	@JoinColumn(nullable = false)
 	private Cidades cidadeLocacao;
 	
-	//@ManyToOne
-	//@JoinColumn(nullable = false)
-	//private Funcionario funcionario;
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Funcionario funcionario;
 	
-	/*public Funcionario getFuncionario() {
+	public Funcionario getFuncionario() {
 		return funcionario;
 	}
 
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
-	}*/
+	}
 
 	public Automovel getAutomovel() {
 		return automovel;

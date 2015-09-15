@@ -27,7 +27,7 @@ public class PagamentoDaoTest {
 	}
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void listar(){
 		PagamentoDao pagamentoDao = new PagamentoDao();
 		
@@ -38,6 +38,8 @@ public class PagamentoDaoTest {
 			System.out.println(pagamento.getDevolucao().getLocacao().getAutomovel().getModelo());
 			System.out.println(pagamento.getValorTotal());
 			System.out.println(pagamento.getCodigo());
+			System.out.println(pagamento.getDevolucao().getCodigo());
+			System.out.println(pagamento.getDevolucao().getLocacao().getCodigo());
 			
 		}
 		
