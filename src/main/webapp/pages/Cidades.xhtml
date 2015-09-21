@@ -10,15 +10,17 @@
 </h:head>
 <h:body>
 	<p:growl id="mensagem" />
-	<h:form>
+	<h:form id="formListagem">
 		<p:panel header="Cidades - Listagem">
-			<p:dataTable emptyMessage="Nenhum Registro Encontrado."
+			<p:dataTable id="tabela" emptyMessage="Nenhum Registro Encontrado."
 				paginator="true" value="#{cidadeBean.cidades}" var="cidade" rows="5">
 				<f:facet name="header">
 					<p:commandButton value="Novo" oncomplete="PF('dialogo').show()"
 						actionListener="#{cidadeBean.novo}"
-						update=":mensagem :formCadastro:painel" 
-						icon="ui-icon-circle-plus"/>
+						update=":mensagem :formCadastro:painel" icon="ui-icon-circle-plus">
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
 				</f:facet>
 
 				<p:column headerText="Nome" sortBy="#{cidade.nome}"
@@ -34,9 +36,34 @@
 				</p:column>
 
 				<p:column headerText="Opcoes">
+					<p:commandButton icon="ui-icon-trash"
+						actionListener="#{cidadeBean.excluir}"
+						update=":mensagem :formListagem:tabela">
+						<p:confirm header="Confirmacao"
+							message="Deseja Excluir a Cidade Selecionada?"
+							icon="ui-icon-alert" />
+						<f:attribute name="cidadeSelecionada" value="#{cidade}" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-pencil"
+						actionListener="#{cidadeBean.editar}"
+						update=":formCadastro:painel :mensagem"
+						oncomplete="PF('dialogo').show();">
+						<f:attribute name="cidadeSelecionada" value="#{cidade}" />
+						<f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+
+
 				</p:column>
 
 			</p:dataTable>
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Nao" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
 		</p:panel>
 	</h:form>
 
@@ -44,19 +71,26 @@
 		draggable="false" resizable="false" modal="true" closable="false">
 		<h:form id="formCadastro">
 			<h:panelGrid id="painel" columns="2">
-				<p:outputLabel value="Nome:" />
-				<p:inputText maxlength="50" size="30"
-					value="#{cidadeBean.cidade.nome}" />
+				<p:outputLabel for="nome" value="Nome:" />
+				<p:inputText id="nome" maxlength="50" size="30"
+					value="#{cidadeBean.cidade.nome}" required="true"
+					requiredMessage="O campo Nome e Obrigatorio" />
 
-				<p:outputLabel value="Estado:" />
-				<p:selectOneMenu filter="true" value="#{cidadeBean.cidade.estado}">
-					<f:selectItem noSelectionOption="true" itemLabel="Selecione um Estado" />
+				<p:outputLabel for="estado" value="Estado:" />
+				<p:selectOneMenu id="estado" filter="true"
+					value="#{cidadeBean.cidade.estado}"
+					converter="omnifaces.SelectItemsConverter" required="true"
+					requiredMessage="Selecione um Estado">
+					<f:selectItem noSelectionOption="true"
+						itemLabel="Selecione um Estado" />
 					<f:selectItems value="#{cidadeBean.estados}" var="estado"
-						itemValue="#{estado}" itemLabel="#{estado.nome}" />
+						itemValue="#{estado}" itemLabel="#{estado.nome} - #{estado.sigla}" />
 				</p:selectOneMenu>
 			</h:panelGrid>
 			<h:panelGrid columns="2">
-				<p:commandButton value="Salvar" />
+				<p:commandButton value="Salvar"
+					actionListener="#{cidadeBean.salvar}"
+					update=":mensagem :formCadastro:painel :formListagem:tabela" />
 				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 			</h:panelGrid>
 		</h:form>
