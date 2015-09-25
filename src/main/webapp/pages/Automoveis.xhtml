@@ -9,70 +9,142 @@
 	<title>Automoveis</title>
 </h:head>
 <h:body>
-	<h:form>
+	<p:growl id="mensagem" />
+	<h:form id="formListagem">
 		<p:panel header="Automovel - Listagem">
-			<p:dataTable emptyMessage="Nenhum Registro Encontrado."
-				paginator="true">
+			<p:dataTable id="tabela" emptyMessage="Nenhum Registro Encontrado."
+				paginator="true" value="#{automovelBean.automoveis}" var="automovel" rows="5">
 				<f:facet name="header">
-					<p:commandButton value="Novo" oncomplete="PF('dialogo').show()" />
+					<p:commandButton value="Novo" oncomplete="PF('dialogo').show()" 
+						actionListener="#{automovelBean.novo}"
+						update=":mensagem :formCadastro:painel" icon="ui-icon-circle-plus">
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
 				</f:facet>
 
-				<p:column headerText="Modelo">
+				<p:column headerText="Modelo" sortBy="#{automovel.modelo}"
+					filterBy="#{automovel.modelo}">
+					<h:outputText value="#{automovel.modelo}" />
 				</p:column>
 
-				<p:column headerText="Fabricante">
+				<p:column headerText="Fabricante" sortBy="#{automovel.fabricante}"
+					filterBy="#{automovel.fabricante}">
+					<h:outputText value="#{automovel.fabricante}" />
 				</p:column>
 
-				<p:column headerText="Chassi">
+				<p:column headerText="Chassi" sortBy="#{automovel.chassi}"
+					filterBy="#{automovel.chassi}">
+					<h:outputText value="#{automovel.chassi}" />
 				</p:column>
 
-				<p:column headerText="Placa">
+				<p:column headerText="Placa" sortBy="#{automovel.placa}"
+					filterBy="#{automovel.placa}">
+					<h:outputText value="#{automovel.placa}" />
 				</p:column>
 
-				<p:column headerText="Cidade">
+				<p:column headerText="Cidade" sortBy="#{automovel.cidade.nome}"
+					filterBy="#{automovel.cidade.nome}">
+					<h:outputText value="#{automovel.cidade.nome}" />
 				</p:column>
 
-				<p:column headerText="Estado">
+				<p:column headerText="Estado" sortBy="#{automovel.estado.nome}"
+					filterBy="#{automovel.estado.nome}">
+					<h:outputText value="#{automovel.estado.nome}" />
 				</p:column>
 
-				<p:column headerText="Status">
+				<p:column headerText="Status" sortBy="#{automovel.status}"
+					filterBy="#{automovel.status}">
+					<h:outputText value="#{automovel.status}" />
 				</p:column>
 
 				<p:column headerText="Opcoes">
+					<p:commandButton icon="ui-icon-trash"
+						actionListener="#{automovelBean.excluir}"
+						update=":mensagem :formListagem:tabela">
+						<p:confirm header="Confirmacao"
+							message="Deseja Excluir o automovel selecionado?"
+							icon="ui-icon-alert" />
+						<f:attribute name="automovelSelecionado" value="#{automovel}" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-pencil"
+						actionListener="#{automovelBean.editar}"
+						update=":formCadastro:painel :mensagem"
+						oncomplete="PF('dialogo').show();">
+						<f:attribute name="automovelSelecionado" value="#{automovel}" />
+						<f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+
+
 				</p:column>
 
 
 
 			</p:dataTable>
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Nao" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+			
 		</p:panel>
 	</h:form>
 
 	<p:dialog header="Automovel - Cadastro" widgetVar="dialogo"
 		draggable="false" resizable="false" modal="true" closable="false">
-		<h:form>
-			<h:panelGrid columns="2">
-				<p:outputLabel value="Modelo:" />
-				<p:inputText maxlength="50" size="25" />
-				<p:outputLabel value="Fabricante:" />
-				<p:inputText maxlength="35" size="12" />
-				<p:outputLabel value="Chassi" />
-				<p:inputText maxlength="17" size="17" />
-				<p:outputLabel value="Placa" />
-				<p:inputText maxlength="7" size="7" />
-
-				<p:outputLabel value="Cidade:" />
-				<p:selectOneMenu filter="true">
-					<f:selectItem itemValue="" itemLabel="Selecionar uma Cidade" />
+		<h:form id="formCadastro">
+			<h:panelGrid id="painel" columns="2">
+				<p:outputLabel for="modelo" value="Modelo:" />
+				<p:inputText id="modelo" maxlength="50" size="25" 
+					value="#{automovelBean.automovel.modelo}" required="true"
+					requiredMessage="O campo nome e obrigatório"/>
+				<p:outputLabel for="fabricante" value="Fabricante:" />
+				<p:inputText id="fabricante" maxlength="35" size="12" 
+					value="#{automovelBean.automovel.fabricante}" required="true"
+					requiredMessage="O campo fabricante é obrigatório"/>
+				<p:outputLabel for="chassi" value="Chassi" />
+				<p:inputText id= "chassi" maxlength="17" size="17" 
+					value="#{automovelBean.automovel.chassi}" required="true"
+					requiredMessage="O campo chassi é obrigatório"/>
+				<p:outputLabel for="placa" value="Placa" />
+				<p:inputText id="placa" maxlength="7" size="7"
+					value="#{automovelBean.automovel.placa}" required="true"
+					requiredMessage="O campo placa é obrigatório"/>
+				
+				<p:outputLabel for="cidade" value="Cidade:" />
+				<p:selectOneMenu id="cidade" filter="true"
+					value="#{automovelBean.automovel.cidade}"
+					converter="omnifaces.SelectItemsConverter" required="true"
+					requiredMessage="Selecione uma cidade">
+					<f:selectItem noSelectionOption="true"
+						itemValue="" itemLabel="Selecione uma cidade" />
+					<f:selectItems value="#{automovelBean.cidades}" var="cidade"
+						itemValue="#{cidade}" itemLabel="#{cidade.nome}" />
 				</p:selectOneMenu>
 				
-				<p:outputLabel value="Estado:" />
-				<p:selectOneMenu filter="true">
-					<f:selectItem itemValue="" itemLabel="Selecionar um Estado" />
+				<p:outputLabel for="estado" value="Estado:" />
+				<p:selectOneMenu id="estado" filter="true"
+					value="#{automovelBean.automovel.estado}"
+					converter="omnifaces.SelectItemsConverter" required="true"
+					requiredMessage="Selecione um estado">
+					<f:selectItem noSelectionOption="true"
+						itemValue="" itemLabel="Selecione um estado" />
+					<f:selectItems value="#{automovelBean.estados}" var="estado"
+						itemValue="#{estado}" itemLabel="#{estado.nome}" />
 				</p:selectOneMenu>
+				
+				<p:outputLabel for="status" value="Status" />
+				<p:inputText id="status" maxlength="20" size="12"
+					value="#{automovelBean.automovel.status}" required="true"
+					requiredMessage="O campo status é obrigatório"/>
 
 			</h:panelGrid>
 			<h:panelGrid columns="2">
-				<p:commandButton value="Salvar" />
+				<p:commandButton value="Salvar" 
+					actionListener="#{automovelBean.salvar}"
+					update=":mensagem :formCadastro:painel :formListagem:tabela" />
 				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 			</h:panelGrid>
 		</h:form>

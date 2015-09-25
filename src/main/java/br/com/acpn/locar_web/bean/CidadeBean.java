@@ -65,7 +65,7 @@ public class CidadeBean implements Serializable {
 		cidade = new Cidades();
 		EstadoDao estadoDao = new EstadoDao();
 		try {
-			estados = estadoDao.listar();
+			estados = estadoDao.listarAsc("nome");// Campo que esta no Doamin e sera ordenado
 		} catch (RuntimeException erro) {
 			Messages.addGlobalError("Ocorreu um Erro ao Listar os Estados");
 			erro.printStackTrace();
@@ -80,7 +80,7 @@ public class CidadeBean implements Serializable {
 			
 			cidade = new Cidades();
 			EstadoDao estadoDao = new EstadoDao();
-			estados = estadoDao.listar();
+			estados = estadoDao.listarAsc("nome");
 			
 			cidades = cidadeDao.listar();
 			
@@ -113,7 +113,7 @@ public class CidadeBean implements Serializable {
 			cidade = (Cidades) evento.getComponent().getAttributes().get("cidadeSelecionada");
 			
 			EstadoDao estadoDao = new EstadoDao();
-			estados = estadoDao.listar();
+			estados = estadoDao.listarAsc("nome");
 			
 		} catch (RuntimeException erro) {
 			Messages.addGlobalError("Ocorreu um Erro ao selecionar a cidade");

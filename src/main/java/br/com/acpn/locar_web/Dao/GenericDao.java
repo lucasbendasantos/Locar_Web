@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import br.com.acpn.locar_web.util.HibernateUtil;
@@ -45,6 +46,37 @@ public class GenericDao<Entidade> {
 		try{
 			Criteria consulta = sessao.createCriteria(classe);
 			List<Entidade> resultado = consulta.list();
+			return resultado;
+		}catch (RuntimeException erro) {
+			throw erro;
+		}finally {
+			sessao.close();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Entidade> listarAsc(String campoOrdenacaoAsc){
+		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
+		try{
+			Criteria consulta = sessao.createCriteria(classe);
+			consulta.addOrder(Order.asc(campoOrdenacaoAsc));
+			List<Entidade> resultado = consulta.list();
+			return resultado;
+		}catch (RuntimeException erro) {
+			throw erro;
+		}finally {
+			sessao.close();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Entidade> listarDesc(String campoOrdenacaoDesc){
+		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
+		try{
+			Criteria consulta = sessao.createCriteria(classe);
+			consulta.addOrder(Order.desc(campoOrdenacaoDesc));
+			List<Entidade> resultado = consulta.list();
+			
 			return resultado;
 		}catch (RuntimeException erro) {
 			throw erro;
